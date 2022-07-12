@@ -1,7 +1,8 @@
 [
     {
         "title": "Test Title",
-        "text": "Test text"
+        "text": "Test text",
+        "notes_id": "test id"
     },
     {
         "title": "asd",
@@ -14,13 +15,8 @@
         "notes_id": "c357374a-2fae-4da6-985e-8d93c8dc4c87"
     },
     {
-        "title": "rsdfg",
-        "text": "sdfgsdfg",
-        "notes_id": "90db6d85-a8da-4655-b5b5-a5cedab4c467"
-    },
-    {
-        "title": "asdf",
-        "text": "sdfasdf",
-        "notes_id": "d99606b4-20d1-4774-93a2-f0749be6501d"
+        "title": "sert",
+        "text": "ert",
+        "notes_id": "b3442e61-7a6e-4176-96fa-ccbec1c4f509"
     }
 ]

@@ -9,7 +9,7 @@ notes.get('/', (req, res) => {
     readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
 });
 
-//POST Route for submitting notes
+//POST Route for posting notes
 notes.post('/', (req, res) => {
 
     const { title, text } = req.body;
@@ -31,5 +31,21 @@ notes.post('/', (req, res) => {
         res.json('Error in posting notes');
     }
 });
+
+//DELETE Route for removing a note
+notes.delete('/:notes_id', (req, res) => {
+    
+    const { notes_id } = req.params;
+    readFromFile('./db/db.json').then((data) => JSON.parse(data))
+        .then((json) => {
+            const newNotes = json.filter((item) => item.notes_id !== notes_id);
+
+            writeToFile('./db/db.json', newNotes);
+
+            res.json(`Note ${notes_id} was successfully deleted.`);
+        })
+
+});
+
 
 module.exports = notes;
