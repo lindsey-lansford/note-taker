@@ -11,7 +11,7 @@ notes.get('/', (req, res) => {
 
 //POST Route for posting notes
 notes.post('/', (req, res) => {
-
+    // Destructuring assignment for the items in req.body
     const { title, text } = req.body;
     if (title && text) {
         const newNotes = {
@@ -19,32 +19,31 @@ notes.post('/', (req, res) => {
             text,
             notes_id: uuidv4(),
         };
+
         readAndAppend(newNotes, './db/db.json');
-
-        const response = {
-            status: 'success',
-            body: newNotes,
-        };
-
-        res.json(response);
+        res.json(`Notes📝 successfully added`);
     } else {
-        res.json('Error in posting notes');
+        res.error('Error in posting notes');
     }
 });
 
 //DELETE Route for removing a note
 notes.delete('/:notes_id', (req, res) => {
     
-    const { notes_id } = req.params;
-    readFromFile('./db/db.json').then((data) => JSON.parse(data))
+    const notesId = req.params.notes_id;
+    readFromFile('./db/db.json')
+        .then((data) => JSON.parse(data))
         .then((json) => {
-            const newNotes = json.filter((item) => item.notes_id !== notes_id);
-
-            writeToFile('./db/db.json', newNotes);
-
-            res.json(`Note ${notes_id} was successfully deleted.`);
+            // Make a new array of all notes except the one with the ID provided in the URL
+            const result = json.filter((item) => item.notes_id !== notesId);
+            // Save that array to the filesystem
+            writeToFile('./db/db.json', result);
+            // Respond to the DELETE request
+            res.json(`Item ${notesId} has been deleted 🗑️`);
         })
-
+        .catch((error) => {
+            console.log(`Error in deleting note: ${error}`);
+    })
 });
 
 
