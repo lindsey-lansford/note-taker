@@ -13,36 +13,37 @@ notes.get('/', (req, res) => {
 notes.post('/', (req, res) => {
     // Destructuring assignment for the items in req.body
     const { title, text } = req.body;
-    if (title && text) {
+    if (req.body) {
         const newNotes = {
             title,
             text,
-            notes_id: uuidv4(),
-        };
+            id: uuidv4()
+        }
 
         readAndAppend(newNotes, './db/db.json');
-        res.json(`Notes📝 successfully added`);
+
+        res.json('Notes📝 successfully added');
     } else {
         res.error('Error in posting notes');
     }
 });
 
 //DELETE Route for removing a note
-notes.delete('/:notes_id', (req, res) => {
+notes.delete('/:id', (req, res) => {
     
-    const notesId = req.params.notes_id;
+    const notesId = req.params.id;
     readFromFile('./db/db.json')
         .then((data) => JSON.parse(data))
         .then((json) => {
             // Make a new array of all notes except the one with the ID provided in the URL
-            const result = json.filter((item) => item.notes_id !== notesId);
+            const result = json.filter((item) => item.id !== notesId);
             // Save that array to the filesystem
             writeToFile('./db/db.json', result);
             // Respond to the DELETE request
             res.json(`Item ${notesId} has been deleted 🗑️`);
         })
-        .catch((error) => {
-            console.log(`Error in deleting note: ${error}`);
+        .catch((err) => {
+            console.log(`Error in deleting note: ${err}`);
     })
 });
 

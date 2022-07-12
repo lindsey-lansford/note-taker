@@ -6,12 +6,11 @@ const PORT = process.env.PORT || 3001;
 
 const app = express();
 
-// Middleware for parsing JSON
+// Middleware for parsing JSON and urlencoded form data
 app.use(express.json());
-// This middleware will parse that string into an object containing key value pairs
 app.use(express.urlencoded({ extended: true }));
 app.use('/api', api);
-//static files
+// Static files
 app.use(express.static('public'));
 
 // GET Route for homepage
